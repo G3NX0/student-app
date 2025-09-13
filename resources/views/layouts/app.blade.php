@@ -197,7 +197,7 @@
             About
         </a>
     </li>
-</ul>~
+</ul>
             </div>
         </div>
     </nav>

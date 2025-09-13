@@ -13,6 +13,19 @@
     table thead th {
         color: #fff !important;
     }
+    .badge-kelas {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 90px;       /* biar semua rata */
+        padding: 0.45rem 0.8rem;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.8rem;
+    }
+    .badge-kelas i {
+        font-size: 0.9rem;
+    }
 </style>
 
 <div class="container my-5">
@@ -54,9 +67,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($students as $student)
+                            @foreach($students as $index => $student)
                                 <tr>
-                                    <td style="padding: 0.75rem; font-weight: 700; color: #212529;">{{ $student['id'] }}</td>
+                                    <td style="padding: 0.75rem; font-weight: 700; color: #212529;">{{ $index + 1 }}</td>
                                     <td style="padding: 0.75rem; color: #212529; font-weight: 500;">{{ $student['nama'] }}</td>
                                     <td style="padding: 0.75rem;">
                                         @if($student['jurusan'] == 'RPL')
@@ -68,14 +81,20 @@
                                         @endif
                                     </td>
                                     <td style="padding: 0.75rem;">
-                                        @if($student['jurusan'] == 'RPL')
-                                        <span class="badge bg-warning text-dark" style="padding: 0.4rem 0.8rem; border-radius: 20px; font-weight: 500; font-size: 0.8rem;">
-                                            <i class="fas fa-star me-1"></i>Unggulan
-                                        </span>
-                                        @else
-                                        <span class="badge bg-light text-dark" style="padding: 0.4rem 0.8rem; border-radius: 20px; font-weight: 500; font-size: 0.8rem;">Reguler</span>
-                                        @endif
-                                    </td>
+    @if($student['kelas'] == 'X')
+        <span class="badge badge-kelas bg-warning text-dark">
+            <i class="fas fa-school me-1"></i>Kelas X
+        </span>
+    @elseif($student['kelas'] == 'XI')
+        <span class="badge badge-kelas bg-info text-dark">
+            <i class="fas fa-school me-1"></i>Kelas XI
+        </span>
+    @else
+        <span class="badge badge-kelas bg-success">
+            <i class="fas fa-school me-1"></i>Kelas XII
+        </span>
+    @endif
+</td>
                                     <td style="padding: 0.75rem;">
                                         <a href="{{ route('students.show', $student['id']) }}" class="btn btn-sm btn-outline-primary" style="border-radius: 8px; padding: 0.4rem 0.8rem; font-weight: 500; text-decoration: none; font-size: 0.85rem;">
                                             <i class="fas fa-eye me-1"></i> Detail

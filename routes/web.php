@@ -13,3 +13,4 @@ Route::get('/students/{id}/edit', [StudentController::class, 'edit'])->name('stu
 Route::put('/students/{id}', [StudentController::class, 'update'])->name('students.update');
 Route::delete('/students/{id}', [StudentController::class, 'destroy'])->name('students.destroy');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::resource('students', StudentController::class);

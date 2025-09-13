@@ -58,6 +58,26 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+                            <div class="mb-4">
+    <label for="kelas" class="form-label" 
+           style="color: #374151; font-weight: 600; font-size: 1rem; margin-bottom: 0.75rem;">
+        Kelas
+    </label>
+    <select class="form-select @error('kelas') is-invalid @enderror" 
+            id="kelas" name="kelas" required
+            style="border: 2px solid #e5e7eb; border-radius: 12px; padding: 0.75rem 1rem; font-size: 1rem; transition: all 0.3s ease;"
+            onfocus="this.style.borderColor='#3b82f6'; this.style.boxShadow='0 0 0 3px rgba(59, 130, 246, 0.1)'"
+            onblur="this.style.borderColor='#e5e7eb'; this.style.boxShadow='none'">
+        <option value="">Pilih Kelas</option>
+        <option value="X" {{ old('kelas') == 'X' ? 'selected' : '' }}>X</option>
+        <option value="XI" {{ old('kelas') == 'XI' ? 'selected' : '' }}>XI</option>
+        <option value="XII" {{ old('kelas') == 'XII' ? 'selected' : '' }}>XII</option>
+    </select>
+    @error('kelas')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
 
                             <div class="alert mb-4" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); color: #1e40af; border: 2px solid rgba(59, 130, 246, 0.2); border-radius: 12px; padding: 1.25rem;">
                                 <div style="background: #3b82f6; width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-right: 0.75rem; vertical-align: middle;">

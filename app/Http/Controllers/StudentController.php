@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kelas;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -9,12 +10,12 @@ class StudentController extends Controller
     private function getStudents()
     {
         return session('students', [
-            ['id' => 1, 'nama' => 'Ahmad Rizki', 'jurusan' => 'RPL'],
-            ['id' => 2, 'nama' => 'Siti Nurhaliza', 'jurusan' => 'TKJ'],
-            ['id' => 3, 'nama' => 'Budi Santoso', 'jurusan' => 'RPL'],
-            ['id' => 4, 'nama' => 'Maya Sari', 'jurusan' => 'MM'],
-            ['id' => 5, 'nama' => 'Doni Pratama', 'jurusan' => 'TKJ'],
-            ['id' => 6, 'nama' => 'Rina Wati', 'jurusan' => 'RPL'],
+            ['id' => 1, 'nama' => 'Ahmad Rizki', 'jurusan' => 'RPL', 'kelas' => 'X'],
+            ['id' => 2, 'nama' => 'Siti Nurhaliza', 'jurusan' => 'TKJ', 'kelas' => 'XI'],
+            ['id' => 3, 'nama' => 'Budi Santoso', 'jurusan' => 'RPL', 'kelas' => 'XII'],
+            ['id' => 4, 'nama' => 'Maya Sari', 'jurusan' => 'MM', 'kelas' => 'XI'],
+            ['id' => 5, 'nama' => 'Doni Pratama', 'jurusan' => 'TKJ', 'kelas' => 'X'],
+            ['id' => 6, 'nama' => 'Rina Wati', 'jurusan' => 'RPL', 'kelas' => 'XII'],
         ]);
     }
 
@@ -38,16 +39,18 @@ class StudentController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'jurusan' => 'required|in:RPL,TKJ,MM'
+            'jurusan' => 'required|in:RPL,TKJ,MM',
+            'kelas' => 'required|in:X,XI,XII'
         ]);
 
         $students = $this->getStudents();
         $newId = count($students) > 0 ? max(array_column($students, 'id')) + 1 : 1;
-        
+
         $students[] = [
             'id' => $newId,
             'nama' => $request->nama,
-            'jurusan' => $request->jurusan
+            'jurusan' => $request->jurusan,
+            'kelas' => $request->kelas,
         ];
 
         $this->saveStudents($students);
@@ -59,7 +62,7 @@ class StudentController extends Controller
     {
         $students = $this->getStudents();
         $student = collect($students)->firstWhere('id', (int)$id);
-        
+
         if (!$student) {
             abort(404, 'Siswa tidak ditemukan');
         }
@@ -71,7 +74,7 @@ class StudentController extends Controller
     {
         $students = $this->getStudents();
         $student = collect($students)->firstWhere('id', (int)$id);
-        
+
         if (!$student) {
             abort(404, 'Siswa tidak ditemukan');
         }
@@ -83,12 +86,13 @@ class StudentController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'jurusan' => 'required|in:RPL,TKJ,MM'
+            'jurusan' => 'required|in:RPL,TKJ,MM',
+            'kelas' => 'required|in:X,XI,XII'
         ]);
 
         $students = $this->getStudents();
         $index = array_search((int)$id, array_column($students, 'id'));
-        
+
         if ($index === false) {
             abort(404, 'Siswa tidak ditemukan');
         }
@@ -96,7 +100,8 @@ class StudentController extends Controller
         $students[$index] = [
             'id' => (int)$id,
             'nama' => $request->nama,
-            'jurusan' => $request->jurusan
+            'jurusan' => $request->jurusan,
+            'kelas' => $request->kelas,
         ];
 
         $this->saveStudents($students);
@@ -107,7 +112,7 @@ class StudentController extends Controller
     public function destroy($id)
     {
         $students = $this->getStudents();
-        $students = array_filter($students, function($student) use ($id) {
+        $students = array_filter($students, function ($student) use ($id) {
             return $student['id'] != (int)$id;
         });
 
